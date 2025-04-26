@@ -39,19 +39,37 @@
 
 四、代码说明
 
-1.正向运动学工具函数
+1.arduino部分
+
+（1）COM3_test代码文件与python部分的“串口测试”代码文件一起使用，用于验证串口通信是否正常(之所以取得COM3是因为最开始在我电脑上用的COM3，后面懒得改了hh）；
+
+（2)Compact_Robot_Arm_Code代码文件是微型控制器的代码，是基于博主开源的代码修改后的，大家使用时需要根据自己电位器和实际情况调试更改映射值（可以用我的“单电位器调试”文件进行一个一个调试,建议调试好后再进行组装！！！；
+
+（3）one_servo_test代码文件用于测试舵机；
+
+（4）PwmDriver与PwmDriver2代码文件都是用于驱动所有舵机的程序，与python部分的“逆运动学”代码文件一起使用，进行串口通信，PwmDriver与PwmDriver2最主要的区别是2加入了平滑运动控制算法,主要原因是因为我们底盘不稳，也可以用其他办法解决；
+
+（5）Trajectory planning代码文件是机械臂轨迹规划避障功能，需要与python部分的“Trajectory planning”代码文件一起使用，目前还不是很完美，但基本能实现；
+
+2.python部分（这里就不像上面arduino部分一个一个讲代码文件了，讲一下核心代码功能）
+
+（1）正向运动学工具函数
 
 dh_matrix(theta, alpha, a, d)：根据改进的 DH 参数生成齐次变换矩阵。
 fkine(dh_params, q)：根据 DH 参数和关节角度计算机械臂末端执行器的位姿。
 
-2.逆运动学核心算法
+（2）逆运动学核心算法
 
 基于matlab机器人工具箱
 ikunc(dh_params, T_target, q_guess, base_offset, tool_offset)：通过数值优化方法求解逆运动学问题。
 
-3.串口通信函数
+（3）串口通信函数
 
 wait_completion(ser, timeout)：等待 Arduino 发送运动完成的反馈信息。
+
+3.Matlab仿真部分
+
+通过matlab机器人工具箱构建机械臂进行仿真，生成工作空间点云图。
 
 4.注意事项
 
